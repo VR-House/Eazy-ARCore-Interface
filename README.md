@@ -26,5 +26,11 @@ ARCore simulation in the editor is done by automatically creating and simulatati
 - Play in editor, for development and debugging.
 - Deploy to device.
 
+## Planned Features/Fixes
+- Support simulated tracked points.
+- Support real-time shadows on tracked planes.
+- Include option for ARRaycasts to be blocked by other virtual objects (other layers).
+- Automate setup through a custom editor (eg. tag creation and assigment).
+
 ## License
 MIT License. Copyright 2018.
