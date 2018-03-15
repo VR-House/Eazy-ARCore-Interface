@@ -16,7 +16,7 @@ ARCore simulation in the editor is done by automatically creating and simulatati
 - No changes required for device deployment
 
 ## Getting Started
-- Import ARCore SDK for Unity.
+- Import ARCore SDK for Unity (v1.0.0 already included).
 - Import Eazy ARCore Interface.
 - Add a Layer and a Tag "EazyARTrackedPlane".
 - Drag an ARCore Device prefab into your scene (Assets > GoogleARCore > Prefabs).
