@@ -12,6 +12,7 @@ ARCore simulation in the editor is done by automatically creating and simulating
 - Ground plane detection
 - Tracked planes and points visualization
 - Allows for physics interaction with tracked planes (Collisions or triggers)
+- Tracked planes can cast and receive shadows
 - API very similar to native ARCore
 - No changes required for device deployment
 
