@@ -22,10 +22,14 @@ namespace EazyTools.ARCoreInterface
         [Header("Tracked Planes")]
         [Tooltip("Whether to visualize the tracked planes")]
         public bool visualizeTrackedPlanes = true;
-        [Tooltip("The material to use to visualize the tracked planes")]
-        public Material trackedPlanesMaterial;
+        [Tooltip("Whether the tracked planes cast shadows")]
+        public bool trackedPlanesCastShadows = false;
+        [Tooltip("Whether the tracked planes receive shadows")]
+        public bool trackedPlanesReceiveShadows = true;
         [Tooltip("Whether to allow other physics objects to collide with the tracked planes")]
         public bool allowTrackedPlanesCollisions = false;
+        [Tooltip("The material to use to visualize the tracked planes")]
+        public Material trackedPlanesMaterial;
 
         /// <summary>
         /// The layer of the tracked planes.
@@ -46,6 +50,21 @@ namespace EazyTools.ARCoreInterface
         /// Whether this is a simulation of ARcore in the editor, or playing on the actual devide
         /// </summary>
         public static bool isSimulated { get; private set; }
+
+        /// <summary>
+        /// Whether the tracked planes are visualized
+        /// </summary>
+        public static bool VisualizeTrackedPlanes { get { return instance.visualizeTrackedPlanes; } }
+
+        /// <summary>
+        /// Whether the tracked planes cast shadows
+        /// </summary>
+        public static bool TrackedPlanesCastShadows { get { return instance.trackedPlanesCastShadows; } }
+
+        /// <summary>
+        /// Whether the tracked planes receive shadows
+        /// </summary>
+        public static bool TrackedPlanesReceiveShadows { get { return instance.trackedPlanesReceiveShadows; } }
 
         private static EazyARCoreInterface _instance = null;
         public static EazyARCoreInterface instance

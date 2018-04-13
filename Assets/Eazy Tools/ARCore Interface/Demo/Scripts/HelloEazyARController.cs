@@ -10,11 +10,6 @@
     public class HelloEazyARController : MonoBehaviour
     {
         /// <summary>
-        /// The first-person camera being used to render the passthrough camera image (i.e. AR background).
-        /// </summary>
-        public Camera firstPersonCamera;
-
-        /// <summary>
         /// A model to place when a raycast from a user touch hits a plane.
         /// </summary>
         public GameObject robotPrefab;
@@ -126,7 +121,7 @@
                 if ((hit.Flags & TrackableHitFlags.PlaneWithinPolygon) != TrackableHitFlags.None)
                 {
                     // Get the camera position and match the y-component with the hit position.
-                    Vector3 cameraPositionSameY = firstPersonCamera.transform.position;
+                    Vector3 cameraPositionSameY = EazyARCoreInterface.ARCamera.transform.position;
                     cameraPositionSameY.y = hit.Pose.position.y;
 
                     // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.

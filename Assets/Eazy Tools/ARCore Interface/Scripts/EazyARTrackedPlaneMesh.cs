@@ -14,11 +14,6 @@ namespace EazyTools.ARCoreInterface
         public EazyARTrackedPlane TrackedPlane { get; private set; }
 
         /// <summary>
-        /// Whether this mesh is going to be visualized
-        /// </summary>
-        public bool Visualize { get; private set; }
-
-        /// <summary>
         /// Whether collisions with other physics objects are allowed on this object
         /// </summary>
         public bool AllowCollisions { get; private set; }
@@ -38,6 +33,10 @@ namespace EazyTools.ARCoreInterface
             meshCollider = gameObject.AddComponent<MeshCollider>();
             meshFilter = gameObject.AddComponent<MeshFilter>();
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
+
+            // Set renderer settings
+            meshRenderer.shadowCastingMode = EazyARCoreInterface.TrackedPlanesCastShadows ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off;
+            meshRenderer.receiveShadows = EazyARCoreInterface.TrackedPlanesReceiveShadows;
 
             // Create empty mesh
             mesh = new Mesh();
