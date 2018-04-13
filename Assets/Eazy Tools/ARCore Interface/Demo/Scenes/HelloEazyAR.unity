@@ -264,7 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc6f55cd57e6150499c28fd35d3c938b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstPersonCamera: {fileID: 896679035}
   robotPrefab: {fileID: 1176094957859368, guid: 7701c87056b06d448861ce9930695304,
     type: 2}
   searchingForPlaneUI: {fileID: 1133631540}
@@ -304,9 +303,11 @@ MonoBehaviour:
   simulatedSessionStatus: 100
   ARCoreAvailabilityStatus: 203
   visualizeTrackedPlanes: 1
+  trackedPlanesCastShadows: 0
+  trackedPlanesReceiveShadows: 1
+  allowTrackedPlanesCollisions: 0
   trackedPlanesMaterial: {fileID: 2100000, guid: c2779b6bcfcdc6f4eb7be8cbbd115477,
     type: 2}
-  allowTrackedPlanesCollisions: 0
 --- !u!4 &1037377298
 Transform:
   m_ObjectHideFlags: 0
@@ -331,7 +332,7 @@ GameObject:
   - component: {fileID: 1133631543}
   - component: {fileID: 1133631542}
   m_Layer: 5
-  m_Name: SnackBar
+  m_Name: ScanningGroundUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
