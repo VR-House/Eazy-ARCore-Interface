@@ -31,6 +31,12 @@ namespace EazyTools.ARCoreInterface
         [Tooltip("The material to use to visualize the tracked planes")]
         public Material trackedPlanesMaterial;
 
+        [Header("Point Cloud")]
+        [Tooltip("Whether to visualize the point cloud")]
+        public bool visualizePointCloud = true;
+        [Tooltip("The material to use to visualize the point cloud")]
+        public Material pointCloudMaterial;
+
         /// <summary>
         /// The layer of the tracked planes.
         /// </summary>
@@ -54,17 +60,22 @@ namespace EazyTools.ARCoreInterface
         /// <summary>
         /// Whether the tracked planes are visualized
         /// </summary>
-        public static bool VisualizeTrackedPlanes { get { return instance.visualizeTrackedPlanes; } }
+        public static bool VisualizeTrackedPlanes { get { return instance.visualizeTrackedPlanes; } set { instance.visualizePointCloud = value; } }
 
         /// <summary>
         /// Whether the tracked planes cast shadows
         /// </summary>
-        public static bool TrackedPlanesCastShadows { get { return instance.trackedPlanesCastShadows; } }
+        public static bool TrackedPlanesCastShadows { get { return instance.trackedPlanesCastShadows; } set { instance.visualizePointCloud = value; } }
 
         /// <summary>
         /// Whether the tracked planes receive shadows
         /// </summary>
-        public static bool TrackedPlanesReceiveShadows { get { return instance.trackedPlanesReceiveShadows; } }
+        public static bool TrackedPlanesReceiveShadows { get { return instance.trackedPlanesReceiveShadows; } set { instance.visualizePointCloud = value; } }
+
+        /// <summary>
+        /// Whether the point cloud is visualized
+        /// </summary>
+        public static bool VisualizePointCloud { get { return instance.visualizePointCloud; } set { instance.visualizePointCloud = value; } }
 
         private static EazyARCoreInterface _instance = null;
         public static EazyARCoreInterface instance
@@ -109,6 +120,15 @@ namespace EazyTools.ARCoreInterface
                     }
                 }
             }
+
+            // Create PointCloud
+            GameObject pointCloud = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            pointCloud.name = "Point Cloud";
+            pointCloud.transform.SetParent(transform);
+            pointCloud.transform.localPosition = Vector3.zero;
+            pointCloud.AddComponent<EazyARCorePointCloudVisualizer>();
+            pointCloud.GetComponent<Renderer>().material = pointCloudMaterial;
+            Destroy(pointCloud.GetComponent<Collider>());
 
             // Attach a free look script on the camera if it is simulated
             if (isSimulated)
