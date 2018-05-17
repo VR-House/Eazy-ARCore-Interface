@@ -20,16 +20,18 @@ namespace EazyTools.ARCoreInterface
         public ApkAvailabilityStatus ARCoreAvailabilityStatus = ApkAvailabilityStatus.SupportedInstalled;
 
         [Header("Tracked Planes")]
-        [Tooltip("Whether to visualize the tracked planes")]
-        public bool visualizeTrackedPlanes = true;
-        [Tooltip("Whether the tracked planes cast shadows")]
-        public bool trackedPlanesCastShadows = false;
-        [Tooltip("Whether the tracked planes receive shadows")]
-        public bool trackedPlanesReceiveShadows = true;
-        [Tooltip("Whether to allow other physics objects to collide with the tracked planes")]
-        public bool allowTrackedPlanesCollisions = false;
-        [Tooltip("The material to use to visualize the tracked planes")]
-        public Material trackedPlanesMaterial;
+        [Tooltip("Whether to visualize the detected planes")]
+        public bool visualizeDetectedPlanes = true;
+        [Tooltip("Whether the detected planes cast shadows")]
+        public bool detectedPlanesCastShadows = false;
+        [Tooltip("Whether the detected planes receive shadows")]
+        public bool detectedPlanesReceiveShadows = true;
+        [Tooltip("Whether to allow other physics objects to collide with the detected planes")]
+        public bool allowDetectedPlanesCollisions = false;
+        [Tooltip("The material to use to visualize the detected horizontal planes")]
+        public Material detectedHorizontalPlanesMaterial;
+        [Tooltip("The material to use to visualize the detected vertical planes")]
+        public Material detectedVerticalPlanesMaterial;
 
         [Header("Point Cloud")]
         [Tooltip("Whether to visualize the point cloud")]
@@ -38,14 +40,14 @@ namespace EazyTools.ARCoreInterface
         public Material pointCloudMaterial;
 
         /// <summary>
-        /// The layer of the tracked planes.
+        /// The layer of the detected planes.
         /// </summary>
-        public static LayerMask TrackedPlaneLayer { get; private set; }
+        public static LayerMask DetectedPlaneLayer { get; private set; }
 
         /// <summary>
-        /// The tag of the tracked planes.
+        /// The tag of the dtetected planes.
         /// </summary>
-        public static string TrackedPlaneTag { get; private set; }
+        public static string DetectedPlaneTag { get; private set; }
 
         /// <summary>
         /// The AR camera
@@ -53,24 +55,24 @@ namespace EazyTools.ARCoreInterface
         public static Camera ARCamera { get { return instance.arCamera; } set { instance.arCamera = value; } }
 
         /// <summary>
-        /// Whether this is a simulation of ARcore in the editor, or playing on the actual devide
+        /// Whether this is a simulation of ARcore in the editor, or playing on the actual device
         /// </summary>
         public static bool isSimulated { get; private set; }
 
         /// <summary>
-        /// Whether the tracked planes are visualized
+        /// Whether the detected planes are visualized
         /// </summary>
-        public static bool VisualizeTrackedPlanes { get { return instance.visualizeTrackedPlanes; } set { instance.visualizePointCloud = value; } }
+        public static bool VisualizeDetectedPlanes { get { return instance.visualizeDetectedPlanes; } set { instance.visualizePointCloud = value; } }
 
         /// <summary>
-        /// Whether the tracked planes cast shadows
+        /// Whether the detected planes cast shadows
         /// </summary>
-        public static bool TrackedPlanesCastShadows { get { return instance.trackedPlanesCastShadows; } set { instance.visualizePointCloud = value; } }
+        public static bool DetectedPlanesCastShadows { get { return instance.detectedPlanesCastShadows; } set { instance.visualizePointCloud = value; } }
 
         /// <summary>
-        /// Whether the tracked planes receive shadows
+        /// Whether the detected planes receive shadows
         /// </summary>
-        public static bool TrackedPlanesReceiveShadows { get { return instance.trackedPlanesReceiveShadows; } set { instance.visualizePointCloud = value; } }
+        public static bool DetectedPlanesReceiveShadows { get { return instance.detectedPlanesReceiveShadows; } set { instance.visualizePointCloud = value; } }
 
         /// <summary>
         /// Whether the point cloud is visualized
@@ -99,24 +101,31 @@ namespace EazyTools.ARCoreInterface
                 isSimulated = false;
             #endif
 
-            // Check if trackables layers are assigned in Layermask
-            TrackedPlaneLayer = LayerMask.NameToLayer("EazyARTrackedPlane");
-            if (TrackedPlaneLayer == -1)
+            // Initialize camera position
+            if (!isSimulated)
             {
-                throw new UnassignedReferenceException("Layer EazyARTrackedPlane cannot be found. Please assign it in the Layer Manager.");
+                ARCamera.transform.position = Vector3.zero;
+                ARCamera.transform.rotation = Quaternion.identity;
             }
 
-            TrackedPlaneTag = "EazyARTrackedPlane";
+            // Check if trackables layers are assigned in Layermask
+            DetectedPlaneLayer = LayerMask.NameToLayer("EazyARDetectedPlane");
+            if (DetectedPlaneLayer == -1)
+            {
+                throw new UnassignedReferenceException("Layer EazyARDetectedPlane cannot be found. Please assign it in the Layer Manager.");
+            }
+
+            DetectedPlaneTag = "EazyARDetectedPlane";
 
             // Disable collisions between trackables layer and other layers
-            if (!allowTrackedPlanesCollisions)
+            if (!allowDetectedPlanesCollisions)
             {
                 for (int i = 0; i <= 31; i++)
                 {
                     string layerName = LayerMask.LayerToName(i);
                     if (layerName.Length > 0)
                     {
-                        Physics.IgnoreLayerCollision(TrackedPlaneLayer, i);
+                        Physics.IgnoreLayerCollision(DetectedPlaneLayer, i);
                     }
                 }
             }
@@ -166,25 +175,25 @@ namespace EazyTools.ARCoreInterface
         }
 
         /// <summary>
-        /// Creates the mesh of a tracked plane in the environment
+        /// Creates the mesh of a detected plane in the environment
         /// </summary>
-        /// <param name="trackedPlane"></param>
+        /// <param name="detectedPlane"></param>
         /// <returns></returns>
-        public static EazyARTrackedPlaneMesh CreateTrackedPlane(EazyARTrackedPlane trackedPlane)
+        public static EazyARDetectedPlaneMesh CreateDetectedPlane(EazyARDetectedPlane detectedPlane)
         {
             //GameObject planeObject = Instantiate(instance.trackedPlanePrefab, Vector3.zero, Quaternion.identity, instance.transform);
-            GameObject planeObject = new GameObject("TrackedPlane");
+            GameObject planeObject = new GameObject("DetectedPlane");
             planeObject.transform.position = Vector3.zero;
             planeObject.transform.rotation = Quaternion.identity;
             planeObject.transform.SetParent(instance.transform);
 
-            EazyARTrackedPlaneMesh planeMesh = planeObject.AddComponent<EazyARTrackedPlaneMesh>();
-            planeMesh.Initialize(trackedPlane);
+            EazyARDetectedPlaneMesh planeMesh = planeObject.AddComponent<EazyARDetectedPlaneMesh>();
+            planeMesh.Initialize(detectedPlane);
             return planeMesh;
         }
 
         /// <summary>
-        /// Does an AR raycast on the tracked planes
+        /// Does an AR raycast on the detected planes
         /// </summary>
         /// <param name="InputPosition"></param>
         /// <param name="hitInfo"></param>
@@ -197,7 +206,7 @@ namespace EazyTools.ARCoreInterface
             {
                 RaycastHit rayHit;
                 Ray ray = EazyARCoreInterface.ARCamera.ScreenPointToRay(new Vector3(x, y, 0));
-                raycast = Physics.Raycast(ray, out rayHit, Mathf.Infinity, (1 << TrackedPlaneLayer));
+                raycast = Physics.Raycast(ray, out rayHit, Mathf.Infinity, (1 << DetectedPlaneLayer));
                 hitInfo = rayHit;
             }
             else
@@ -218,7 +227,7 @@ namespace EazyTools.ARCoreInterface
         /// relative offset between the Pose of multiple Anchors attached to the same Trackable may change
         /// over time as ARCore refines its understanding of the world.
         /// </summary>
-        /// <param name="trackable">The trackable (e.g tracked plane) that the anchor is going to be attached to.</param>
+        /// <param name="trackable">The trackable (e.g detected plane) that the anchor is going to be attached to.</param>
         /// <param name="pose">The Pose of the location to create the anchor.</param>
         /// <returns>An Anchor attached to the Trackable at <c>Pose</c>. The anchor is disabled automatically when ARCore is simulated in the editor</returns>
         public static Anchor CreateAnchor(Trackable trackable, Pose pose)

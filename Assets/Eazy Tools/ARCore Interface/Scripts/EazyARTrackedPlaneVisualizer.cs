@@ -6,11 +6,11 @@ using GoogleARCore;
 namespace EazyTools.ARCoreInterface
 {
 
-    public class ARTrackedPlaneVisualizer : MonoBehaviour
+    public class EazyARDetectedPlaneVisualizer : MonoBehaviour
     {
         public Material material;
 
-        public EazyARTrackedPlane TrackedPlane { get; private set; }
+        public EazyARDetectedPlane detectedPlane { get; private set; }
 
         MeshCollider m_meshCollider;
         MeshFilter m_meshFilter;
@@ -31,28 +31,28 @@ namespace EazyTools.ARCoreInterface
             m_meshCollider.sharedMesh = m_mesh;
 
             // Set layer
-            gameObject.layer = EazyARCoreInterface.TrackedPlaneLayer;
+            gameObject.layer = EazyARCoreInterface.DetectedPlaneLayer;
         }
 
-        public void Initialize(EazyARTrackedPlane plane)
+        public void Initialize(EazyARDetectedPlane plane)
         {
-            TrackedPlane = plane;
+            detectedPlane = plane;
             m_meshRenderer.material = material;
             Update();
         }
 
         void Update()
         {
-            if (TrackedPlane == null)
+            if (detectedPlane == null)
             {
                 return;
             }
-            else if (TrackedPlane.SubsumedBy != null)
+            else if (detectedPlane.SubsumedBy != null)
             {
                 Destroy(gameObject);
                 return;
             }
-            else if (TrackedPlane.TrackingState != TrackingState.Tracking)
+            else if (detectedPlane.TrackingState != TrackingState.Tracking)
             {
                 m_meshRenderer.enabled = false;
                 m_meshCollider.enabled = false;
@@ -88,7 +88,7 @@ namespace EazyTools.ARCoreInterface
             }
             else
             {
-                TrackedPlane.ARcoreTrackedPlane.GetBoundaryPolygon(m_points);
+                detectedPlane.ARcoreDetectedPlane.GetBoundaryPolygon(m_points);
 
                 if (AreVerticesListsEqual(m_previousFramePoints, m_points))
                 {

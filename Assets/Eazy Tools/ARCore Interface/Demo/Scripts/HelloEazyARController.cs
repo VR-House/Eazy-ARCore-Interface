@@ -23,13 +23,13 @@
         /// A list to hold new planes ARCore began tracking in the current frame. This object is used across
         /// the application to avoid per-frame allocations.
         /// </summary>
-        private List<EazyARTrackedPlane> m_NewPlanes = new List<EazyARTrackedPlane>();
+        private List<EazyARDetectedPlane> m_NewPlanes = new List<EazyARDetectedPlane>();
 
         /// <summary>
         /// A list to hold all planes ARCore is tracking in the current frame. This object is used across
         /// the application to avoid per-frame allocations.
         /// </summary>
-        private List<EazyARTrackedPlane> m_AllPlanes = new List<EazyARTrackedPlane>();
+        private List<EazyARDetectedPlane> m_AllPlanes = new List<EazyARDetectedPlane>();
 
         /// <summary>
         /// True if the app is in the process of quitting due to an ARCore connection error, otherwise false.
@@ -70,7 +70,7 @@
                 // Instantiate a plane visualization prefab and set it to track the new plane. The transform is set to
                 // the origin with an identity rotation since the mesh for our prefab is updated in Unity World
                 // coordinates.
-                EazyARCoreInterface.CreateTrackedPlane(m_NewPlanes[i]);;
+                EazyARCoreInterface.CreateDetectedPlane(m_NewPlanes[i]);;
             }
 
             // Disable the snackbar UI when no planes are valid.

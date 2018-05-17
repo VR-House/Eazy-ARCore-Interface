@@ -5,13 +5,12 @@ using UnityEngine;
 
 namespace EazyTools.ARCoreInterface
 {
-
-    public class EazyARTrackedPlaneMesh : MonoBehaviour
+    public class EazyARDetectedPlaneMesh : MonoBehaviour
     {
         /// <summary>
         /// The trakced planed this mesh represents
         /// </summary>
-        public EazyARTrackedPlane TrackedPlane { get; private set; }
+        public EazyARDetectedPlane detectedPlane { get; private set; }
 
         /// <summary>
         /// Whether collisions with other physics objects are allowed on this object
@@ -35,8 +34,8 @@ namespace EazyTools.ARCoreInterface
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
 
             // Set renderer settings
-            meshRenderer.shadowCastingMode = EazyARCoreInterface.TrackedPlanesCastShadows ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off;
-            meshRenderer.receiveShadows = EazyARCoreInterface.TrackedPlanesReceiveShadows;
+            meshRenderer.shadowCastingMode = EazyARCoreInterface.DetectedPlanesCastShadows ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off;
+            meshRenderer.receiveShadows = EazyARCoreInterface.DetectedPlanesReceiveShadows;
 
             // Create empty mesh
             mesh = new Mesh();
@@ -44,8 +43,8 @@ namespace EazyTools.ARCoreInterface
             meshCollider.sharedMesh = mesh;
 
             // Set layer & tag
-            gameObject.layer = EazyARCoreInterface.TrackedPlaneLayer;
-            gameObject.tag = EazyARCoreInterface.TrackedPlaneTag;
+            gameObject.layer = EazyARCoreInterface.DetectedPlaneLayer;
+            gameObject.tag = EazyARCoreInterface.DetectedPlaneTag;
             
         }
 
@@ -53,10 +52,10 @@ namespace EazyTools.ARCoreInterface
         /// Initialized and created the mesh
         /// </summary>
         /// <param name="plane"></param>
-        public void Initialize(EazyARTrackedPlane plane)
+        public void Initialize(EazyARDetectedPlane plane)
         {
-            TrackedPlane = plane;
-            meshRenderer.material = EazyARCoreInterface.instance.trackedPlanesMaterial;
+            detectedPlane = plane;
+            meshRenderer.material = detectedPlane.Direction == EazyARDetectedPlane.PlaneDirection.Horizontal ? EazyARCoreInterface.instance.detectedHorizontalPlanesMaterial : EazyARCoreInterface.instance.detectedVerticalPlanesMaterial;
             initialized = true;
             Update();
         }
@@ -65,26 +64,26 @@ namespace EazyTools.ARCoreInterface
         {
             if (!initialized)
             {
-                throw new System.InvalidOperationException("ARTrackedPlaneMesh is not initialized. Call Initialize with appropriate configuration as soon as component is created");
+                throw new System.InvalidOperationException("ARDetectedPlaneMesh is not initialized. Call Initialize with appropriate configuration as soon as component is created");
             }
 
-            if (TrackedPlane == null)
+            if (detectedPlane == null)
             {
                 return;
             }
-            else if (TrackedPlane.SubsumedBy != null)
+            else if (detectedPlane.SubsumedBy != null)
             {
                 Destroy(gameObject);
                 return;
             }
-            else if (TrackedPlane.TrackingState != TrackingState.Tracking)
+            else if (detectedPlane.TrackingState != TrackingState.Tracking)
             {
                 meshRenderer.enabled = false;
                 meshCollider.enabled = false;
                 return;
             }
 
-            meshRenderer.enabled = meshRenderer.material == null || !EazyARCoreInterface.instance.visualizeTrackedPlanes ? false : true;
+            meshRenderer.enabled = meshRenderer.material == null || !EazyARCoreInterface.instance.visualizeDetectedPlanes ? false : true;
             meshCollider.enabled = true;
 
             UpdateMeshIfNeeded();
@@ -99,7 +98,7 @@ namespace EazyTools.ARCoreInterface
                     return;
                 }
 
-                // Create a blueprint plane to copy its mesh that simulates an AR tracked plane
+                // Create a blueprint plane to copy its mesh that simulates an AR detected plane
                 GameObject blueprintPlane = GameObject.CreatePrimitive(PrimitiveType.Plane);
 
                 // Copy the plane mesh
@@ -119,7 +118,7 @@ namespace EazyTools.ARCoreInterface
             }
             else
             {
-                TrackedPlane.ARcoreTrackedPlane.GetBoundaryPolygon(boundaryPoints);
+                detectedPlane.ARcoreDetectedPlane.GetBoundaryPolygon(boundaryPoints);
 
                 if (AreVerticesListsEqual(previousFrameBoundaryPoints, boundaryPoints))
                 {

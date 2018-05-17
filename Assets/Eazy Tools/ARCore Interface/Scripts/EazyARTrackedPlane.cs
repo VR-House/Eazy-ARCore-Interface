@@ -8,27 +8,27 @@ namespace EazyTools.ARCoreInterface
     /// <summary>
     /// A planar surface in the real world detected and tracked by ARCore.
     /// </summary>
-    public class EazyARTrackedPlane
+    public class EazyARDetectedPlane
     {
         /// <summary>
         /// Reference to the actual tracked plane from ARCore. If simulated, it is always null
         /// </summary>
-        public TrackedPlane ARcoreTrackedPlane { get; private set; }
+        public DetectedPlane ARcoreDetectedPlane { get; private set; }
 
         /// <summary>
         /// Gets the position and orientation of the plane's center.
         /// </summary>
-        public Pose CenterPose { get { return EazyARCoreInterface.isSimulated ? new Pose(Vector3.zero, Quaternion.identity) : ARcoreTrackedPlane.CenterPose; } }
+        public Pose CenterPose { get { return EazyARCoreInterface.isSimulated ? new Pose(Vector3.zero, Quaternion.identity) : ARcoreDetectedPlane.CenterPose; } }
 
         /// <summary>
         /// Gets the extent of the plane in the X dimension, centered on the plane position.
         /// </summary>
-        public float ExtentX { get { return EazyARCoreInterface.isSimulated ? 0 : ARcoreTrackedPlane.ExtentX; } }
+        public float ExtentX { get { return EazyARCoreInterface.isSimulated ? 0 : ARcoreDetectedPlane.ExtentX; } }
 
         /// <summary>
         /// Gets the extent of the plane in the Z dimension, centered on the plane position.
         /// </summary>
-        public float ExtentZ { get { return EazyARCoreInterface.isSimulated ? 0 : ARcoreTrackedPlane.ExtentZ; } }
+        public float ExtentZ { get { return EazyARCoreInterface.isSimulated ? 0 : ARcoreDetectedPlane.ExtentZ; } }
 
         /// <summary>
         /// Gets the tracking state of for the Trackable in the current frame. If simulated, it always returns Tracking.
@@ -43,7 +43,7 @@ namespace EazyTools.ARCoreInterface
                 }
                 else
                 {
-                    return ARcoreTrackedPlane.TrackingState;
+                    return ARcoreDetectedPlane.TrackingState;
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace EazyTools.ARCoreInterface
         /// Gets a reference to the plane subsuming this plane, if any. If not null, only the subsuming plane should be
         /// considered valid for rendering. If simulated, it always returns null.
         /// </summary>
-        public TrackedPlane SubsumedBy
+        public DetectedPlane SubsumedBy
         {
             get
             {
@@ -62,19 +62,43 @@ namespace EazyTools.ARCoreInterface
                 }
                 else
                 {
-                    return ARcoreTrackedPlane.SubsumedBy;
+                    return ARcoreDetectedPlane.SubsumedBy;
                 }
             }
         }
 
-        public EazyARTrackedPlane()
+        public PlaneDirection Direction
         {
-            this.ARcoreTrackedPlane = null;
+            get
+            {
+                float angleX = Mathf.Abs((CenterPose.rotation.x > 180) ? CenterPose.rotation.x - 360 : CenterPose.rotation.x);
+                float angleZ = Mathf.Abs((CenterPose.rotation.z > 180) ? CenterPose.rotation.z - 360 : CenterPose.rotation.z);
+
+                if (angleX > 45 || angleZ > 45)
+                {
+                    return PlaneDirection.Vertical;
+                }
+                else
+                {
+                    return PlaneDirection.Horizontal;
+                }
+            }
         }
 
-        public EazyARTrackedPlane(TrackedPlane trackedPlane)
+        public enum PlaneDirection
         {
-            this.ARcoreTrackedPlane = trackedPlane;
+            Horizontal,
+            Vertical
+        }
+
+        public EazyARDetectedPlane()
+        {
+            this.ARcoreDetectedPlane = null;
+        }
+
+        public EazyARDetectedPlane(DetectedPlane detectedPlane)
+        {
+            this.ARcoreDetectedPlane = detectedPlane;
         }
 
         public Anchor CreateAnchor(Pose pose)
@@ -85,7 +109,7 @@ namespace EazyTools.ARCoreInterface
             }
             else
             {
-                return ARcoreTrackedPlane.CreateAnchor(pose);
+                return ARcoreDetectedPlane.CreateAnchor(pose);
             }
         }
 

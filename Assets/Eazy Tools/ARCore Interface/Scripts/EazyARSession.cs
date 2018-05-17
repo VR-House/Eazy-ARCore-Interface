@@ -31,7 +31,7 @@ namespace EazyTools.ARCoreInterface
             }
         }
 
-        private static bool simulatedPlaneTracked = false;
+        private static bool simulatedPlaneDetected = false;
         private static SessionStatus status = SessionStatus.Tracking;
         private static ApkAvailabilityStatus apkAvailabilityStatus = ApkAvailabilityStatus.SupportedInstalled;
 
@@ -59,27 +59,27 @@ namespace EazyTools.ARCoreInterface
         }
 
         /// <summary>
-        /// Gets Trackables ARCore has tracked.
+        /// Gets Trackables ARCore has detected.
         /// </summary>
-        /// <param name="trackables">A reference to a list of tracked planes that will be filled by the method call.</param>
+        /// <param name="trackables">A reference to a list of detected planes that will be filled by the method call.</param>
         /// <param name="filter">A filter on the type of data to return.</param>
-        public static List<EazyARTrackedPlane> GetTrackablePlanes(TrackableQueryFilter filter = TrackableQueryFilter.All)
+        public static List<EazyARDetectedPlane> GetTrackablePlanes(TrackableQueryFilter filter = TrackableQueryFilter.All)
         {
-            List<EazyARTrackedPlane> planes = new List<EazyARTrackedPlane>();
+            List<EazyARDetectedPlane> planes = new List<EazyARDetectedPlane>();
 
-            if (EazyARCoreInterface.isSimulated && (!simulatedPlaneTracked || filter == TrackableQueryFilter.All))
+            if (EazyARCoreInterface.isSimulated && (!simulatedPlaneDetected || filter == TrackableQueryFilter.All))
             {
-                planes.Add(new EazyARTrackedPlane());
-                simulatedPlaneTracked = true;
+                planes.Add(new EazyARDetectedPlane());
+                simulatedPlaneDetected = true;
             }
             else if (!EazyARCoreInterface.isSimulated)
             {
-                List<TrackedPlane> trackedPlanes = new List<TrackedPlane>();
-                Session.GetTrackables<TrackedPlane>(trackedPlanes, filter);
+                List<DetectedPlane> trackedPlanes = new List<DetectedPlane>();
+                Session.GetTrackables<DetectedPlane>(trackedPlanes, filter);
 
-                foreach (TrackedPlane plane in trackedPlanes)
+                foreach (DetectedPlane plane in trackedPlanes)
                 {
-                    planes.Add(new EazyARTrackedPlane(plane));
+                    planes.Add(new EazyARDetectedPlane(plane));
                 }
             }
 
