@@ -276,6 +276,53 @@ MonoBehaviour:
   robotPrefab: {fileID: 1788473529649246, guid: 64c8094377ef358409eb266f1c1014ca,
     type: 2}
   searchingForPlaneUI: {fileID: 1133631540}
+--- !u!1001 &672207568
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4371722043850306, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114510457144374780, guid: 1aadf9f7f0324eb4d83985572d126c7d,
+        type: 2}
+      propertyPath: arCamera
+      value: 
+      objectReference: {fileID: 896679035}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 1aadf9f7f0324eb4d83985572d126c7d, type: 2}
+  m_IsPrefabParent: 0
 --- !u!20 &896679035 stripped
 Camera:
   m_PrefabParentObject: {fileID: 20155940112608238, guid: c10877f7cd5764de18d46d7b777d1faa,
@@ -370,59 +417,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1037377296
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1037377298}
-  - component: {fileID: 1037377297}
-  m_Layer: 0
-  m_Name: EazyARCoreInterface
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1037377297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1037377296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c279ad3094dd9994da1b3c52c13e5b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arCamera: {fileID: 896679035}
-  simulatedSessionStatus: 100
-  ARCoreAvailabilityStatus: 203
-  visualizeDetectedPlanes: 1
-  detectedPlanesCastShadows: 0
-  detectedPlanesReceiveShadows: 1
-  allowDetectedPlanesCollisions: 0
-  detectedHorizontalPlanesMaterial: {fileID: 2100000, guid: c2779b6bcfcdc6f4eb7be8cbbd115477,
-    type: 2}
-  detectedVerticalPlanesMaterial: {fileID: 2100000, guid: a8bf171d56e55a94d82df4a9358e9be8,
-    type: 2}
-  visualizePointCloud: 1
-  pointCloudMaterial: {fileID: 2100000, guid: e37034352b77e34449a69c464453a7c0, type: 2}
---- !u!4 &1037377298
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1037377296}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1133631540
 GameObject:

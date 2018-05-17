@@ -54,7 +54,13 @@ MonoBehaviour:
   arCamera: {fileID: 0}
   simulatedSessionStatus: 100
   ARCoreAvailabilityStatus: 203
-  visualizeTrackedPlanes: 1
-  trackedPlanesMaterial: {fileID: 2100000, guid: c2779b6bcfcdc6f4eb7be8cbbd115477,
+  visualizeDetectedPlanes: 1
+  detectedPlanesCastShadows: 0
+  detectedPlanesReceiveShadows: 1
+  allowDetectedPlanesCollisions: 0
+  detectedHorizontalPlanesMaterial: {fileID: 2100000, guid: c2779b6bcfcdc6f4eb7be8cbbd115477,
     type: 2}
-  allowTrackedPlanesCollisions: 0
+  detectedVerticalPlanesMaterial: {fileID: 2100000, guid: a8bf171d56e55a94d82df4a9358e9be8,
+    type: 2}
+  visualizePointCloud: 1
+  pointCloudMaterial: {fileID: 2100000, guid: e37034352b77e34449a69c464453a7c0, type: 2}
