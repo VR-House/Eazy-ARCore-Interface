@@ -69,7 +69,15 @@ namespace EazyTools.ARCoreInterface
 
             if (EazyARCoreInterface.isSimulated && (!simulatedPlaneDetected || filter == TrackableQueryFilter.All))
             {
+                // simulated horizontal plane
                 planes.Add(new EazyARDetectedPlane());
+
+                // simulated vertical plane
+                Quaternion rot = new Quaternion();
+                rot.eulerAngles = new Vector3(0, 90, -90);
+                Pose pose = new Pose(Vector3.zero, rot);
+                planes.Add(new EazyARDetectedPlane(pose));
+
                 simulatedPlaneDetected = true;
             }
             else if (!EazyARCoreInterface.isSimulated)

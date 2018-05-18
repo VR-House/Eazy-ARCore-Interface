@@ -18,7 +18,11 @@ namespace EazyTools.ARCoreInterface
         /// <summary>
         /// Gets the position and orientation of the plane's center.
         /// </summary>
-        public Pose CenterPose { get { return EazyARCoreInterface.isSimulated ? new Pose(Vector3.zero, Quaternion.identity) : ARcoreDetectedPlane.CenterPose; } }
+        public Pose CenterPose
+        {
+            get { return EazyARCoreInterface.isSimulated ? simulatedCenterPose : ARcoreDetectedPlane.CenterPose; }
+            private set { simulatedCenterPose = value; }
+        }
 
         /// <summary>
         /// Gets the extent of the plane in the X dimension, centered on the plane position.
@@ -91,9 +95,18 @@ namespace EazyTools.ARCoreInterface
             Vertical
         }
 
+        private Pose simulatedCenterPose;
+
         public EazyARDetectedPlane()
         {
             this.ARcoreDetectedPlane = null;
+            this.CenterPose = new Pose(Vector3.zero, Quaternion.identity);
+        }
+
+        public EazyARDetectedPlane(Pose pose)
+        {
+            this.ARcoreDetectedPlane = null;
+            this.CenterPose = pose;
         }
 
         public EazyARDetectedPlane(DetectedPlane detectedPlane)

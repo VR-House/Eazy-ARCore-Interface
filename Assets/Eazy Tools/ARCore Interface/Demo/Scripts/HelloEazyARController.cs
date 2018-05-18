@@ -70,7 +70,7 @@
                 // Instantiate a plane visualization prefab and set it to track the new plane. The transform is set to
                 // the origin with an identity rotation since the mesh for our prefab is updated in Unity World
                 // coordinates.
-                EazyARCoreInterface.CreateDetectedPlane(m_NewPlanes[i]);;
+                EazyARCoreInterface.CreateDetectedPlane(m_NewPlanes[i]);
             }
 
             // Disable the snackbar UI when no planes are valid.
@@ -111,7 +111,7 @@
             EazyARRaycastHit hit;
             if (EazyARCoreInterface.ARRaycast(inputPos.x, inputPos.y, out hit))
             {
-                GameObject robotObj = Instantiate(robotPrefab, hit.Pose.position, hit.Pose.rotation);
+                GameObject andyObj = Instantiate(robotPrefab, hit.Pose.position, hit.Pose.rotation);
 
                 // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                 // world evolves.
@@ -125,11 +125,21 @@
                     cameraPositionSameY.y = hit.Pose.position.y;
 
                     // Have Andy look toward the camera respecting his "up" perspective, which may be from ceiling.
-                    robotObj.transform.LookAt(cameraPositionSameY, robotObj.transform.up);
+                    Vector3 direction = EazyARCoreInterface.ARCamera.transform.position - andyObj.transform.position;
+                    float dot = Vector3.Dot(direction, Vector3.up);
+                    bool orthogonal = ((dot == 1f) || (dot == -1f));
+                    if (orthogonal)
+                    {
+                        return;
+                    }
+
+                    Vector3 fwd = Vector3.ProjectOnPlane(direction, Vector3.up);
+                    Quaternion fwdRot = Quaternion.LookRotation(fwd, Vector3.up);
+                    andyObj.transform.localRotation = andyObj.transform.localRotation * fwdRot;
                 }
 
                 // Make Andy model a child of the anchor.
-                robotObj.transform.parent = anchor.transform;
+                andyObj.transform.parent = anchor.transform;
             }
         }
 

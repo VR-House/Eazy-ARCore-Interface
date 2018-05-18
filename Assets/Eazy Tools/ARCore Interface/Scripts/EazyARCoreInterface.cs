@@ -101,11 +101,18 @@ namespace EazyTools.ARCoreInterface
                 isSimulated = false;
             #endif
 
-            // Initialize camera position
+            // Initialize ARCore session and camera position
             if (!isSimulated)
             {
+                GameObject ARCoreSessionObj = FindObjectOfType<ARCoreSession>().gameObject;
+
+                ARCoreSessionObj.transform.position = Vector3.zero;
+                ARCoreSessionObj.transform.rotation = Quaternion.identity;
+
                 ARCamera.transform.position = Vector3.zero;
                 ARCamera.transform.rotation = Quaternion.identity;
+
+                ARCamera.transform.SetParent(ARCoreSessionObj.transform);
             }
 
             // Check if trackables layers are assigned in Layermask
