@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GoogleARCore;
 
-namespace EazyTools.ARCoreInterface
+namespace VRHouse.ARTools
 {
 
     public class EazyARDetectedPlaneVisualizer : MonoBehaviour

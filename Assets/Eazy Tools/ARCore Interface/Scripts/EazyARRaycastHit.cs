@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace EazyTools.ARCoreInterface
+namespace VRHouse.ARTools
 {
     public class EazyARRaycastHit
     {

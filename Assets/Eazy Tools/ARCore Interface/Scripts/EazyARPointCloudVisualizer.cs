@@ -1,7 +1,7 @@
 ﻿using GoogleARCore;
 using UnityEngine;
 
-namespace EazyTools.ARCoreInterface
+namespace VRHouse.ARTools
 {
     public class EazyARCorePointCloudVisualizer : MonoBehaviour
     {

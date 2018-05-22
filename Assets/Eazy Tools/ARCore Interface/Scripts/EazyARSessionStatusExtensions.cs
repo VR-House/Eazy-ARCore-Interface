@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EazyTools.ARCoreInterface
+namespace VRHouse.ARTools
 {
     /// <summary>
     /// Extension methods for the SessionStatus enumeration.

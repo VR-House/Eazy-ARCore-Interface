@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EazyTools.ARCoreInterface
+namespace VRHouse.ARTools
 {
     /// <summary>
     /// A planar surface in the real world detected and tracked by ARCore.

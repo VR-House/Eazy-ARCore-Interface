@@ -1,4 +1,4 @@
-﻿namespace EazyTools.ARCoreInterface.HelloAR
+﻿namespace VRHouse.ARTools.HelloAR
 {
     using System.Collections.Generic;
     using GoogleARCore;

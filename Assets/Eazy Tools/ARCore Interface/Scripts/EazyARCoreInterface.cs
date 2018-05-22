@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EazyTools.ARCoreInterface
+namespace VRHouse.ARTools
 {
     [AddComponentMenu("Eazy Tools/ ARCore Interface")]
     public class EazyARCoreInterface : MonoBehaviour
